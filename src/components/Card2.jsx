@@ -3,22 +3,22 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { adddata, deletecart, addvalue, countdec } from '../redux/counter/counterSlice'
 
-function Card2({ src, name, discount, tittle, rating, mintime, maxtime, place, slide, width, cart, value }) {
+function Card2({ name , cuisines,cloudinaryImageId, areaName, avgRating, slaString,width,slide,cart,header,subHeader,value }) {
   const dispatch = useDispatch()
   const [visible, setvisible] = useState(true)
 
   const data = {
-    src,
-    name,
-    discount,
-    tittle,
-    rating,
-    mintime,
-    maxtime,
-    place,
-    slide,
-    width,
-    value,
+    name ,
+     cuisines,
+     cloudinaryImageId,
+      areaName, 
+      avgRating,
+       slaString,
+       width,
+       slide,
+       cart,
+       header,
+       subHeader
   }
 
   const handlecard = () => {
@@ -31,32 +31,32 @@ function Card2({ src, name, discount, tittle, rating, mintime, maxtime, place, s
   }
 
   const removecard = () => {
-    dispatch(deletecart(src))
+    dispatch(deletecart(name))
     console.log(src)
   }
 
   const additem = () => {
-    dispatch(addvalue(src))
+    dispatch(addvalue(name))
   }
   const subtractitem = () => {
-    dispatch(countdec(src))
+    dispatch(countdec(name))
   }
 
   return (
     <div className="max-w-[1200px] mx-auto px-2 mb-4">
       <div className="w-full h-full flex items-center">
         <div className="w-1/2 p-2">
-          <div className="mt-3 text-xl font-bold">{tittle}</div>
+          <div className="mt-3 text-xl font-bold">{name}</div>
           <div>
-            <Star className="inline" /> {rating}
+            <Star className="inline" /> {avgRating}
             <span className="ml-2">
-              {mintime}-{maxtime} mins
+              {slaString}
             </span>
           </div>
           <div className="text-slate-700">
-            {name}
+         {cuisines}
             <br />
-            {place}
+            {areaName}
           </div>
           {cart && (
             <div
@@ -107,11 +107,11 @@ function Card2({ src, name, discount, tittle, rating, mintime, maxtime, place, s
           <div className="group h-[182px] rounded-[15px] overflow-hidden relative">
             <img
               className="group-hover:scale-110 object-cover w-full h-full"
-              src={src}
+              src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/" + cloudinaryImageId}
               alt={name}
             />
             <div className="image-overlay absolute w-full h-full top-0 flex items-end p-2 text-[16px] md:text-[25px] font-bold text-white tracking-tighter">
-              {discount}
+            {header} {subHeader}
             </div>
           </div>
         </div>

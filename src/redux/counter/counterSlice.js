@@ -16,7 +16,7 @@ import { createSlice } from "@reduxjs/toolkit";
         addvalue : (state,action)=>{
            const key = action.payload
            state.cards.map((card) =>{
-            if(card.src === key){
+            if(card.name === key){
                card.value = card.value+1
             }
            })
@@ -28,7 +28,7 @@ import { createSlice } from "@reduxjs/toolkit";
         countdec : (state,action) =>{
          const key = action.payload
          state.cards.map((card)=>{
-            if(card.src === key){
+            if(card.name === key){
                if(card.value >1){
                card.value = card.value-1
                }
@@ -40,7 +40,7 @@ import { createSlice } from "@reduxjs/toolkit";
         deletecart :(state,action)=>{
            const key = action.payload;
            console.log(key)
-           state.cards = state.cards.filter((data) => data.src !== action.payload);
+           state.cards = state.cards.filter((data) => data.name !== action.payload);
         }
     }
 

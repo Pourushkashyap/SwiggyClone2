@@ -1,23 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { adddata,deletecart,addvalue,countdec } from '../redux/counter/counterSlice'
 
-function Card({src,name,discount,tittle,rating,mintime,maxtime,place,slide,width,cart,value }) {
+function Card({name , cuisines,cloudinaryImageId, areaName, avgRating, slaString,width,slide,cart,header,subHeader}) {
   const dispatch = useDispatch();
   const [visible,setvisible]  = useState(true);
-  
+  const [isLoading, setIsLoading] = useState(true); 
   const data = {
-    src,
-    name,
-    discount,
-    tittle,
-    rating,
-    mintime,
-    maxtime,
-    place,
-    slide,
-    width,value
+    name ,
+     cuisines,
+     cloudinaryImageId,
+      areaName, 
+      avgRating,
+       slaString,
+       width,
+       slide,
+       cart,
+       header,
+       subHeader,
+       value:0
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false); // Simulate data loading
+    }, 2000); // Assume data loading takes 2 seconds
+  }, []);
 
   const handlecard = () =>{
     dispatch(adddata(data))
@@ -29,43 +37,60 @@ function Card({src,name,discount,tittle,rating,mintime,maxtime,place,slide,width
   }
 
  
-
   
+    return (
+      <div className={`${width} shrink-0 mb-3`} style={{ transform: `translateX(-${slide * 100}%)` }}>
+        {isLoading ? (
+          <div className="shimmer-wrapper h-[182px] rounded-[15px] overflow-hidden relative">
+            <div className="shimmer"></div>
+          </div>
+        ) : (
+          <div className='group h-[182px] rounded-[15px] overflow-hidden relative'>
+            <img
+              className='group-hover:scale-110 object-cover w-full h-full'
+              src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/" + cloudinaryImageId}
+              alt={name}
+            />
+            <div className='image-overlay absolute w-full h-full top-0 flex items-end p-2 text-[16px] md:text-[25px] font-bold text-white tracking-tighter'>
+              {header} {subHeader}
+            </div>
+          </div>
+        )}
   
-  return (
-    <div  className={`${width} shrink-0  mb-3 `} style={{
-      transform: `translateX(-${slide * 100}%)` 
-    }}>
-        <div className='group h-[182px] rounded-[15px] overflow-hidden relative  ' >
-            <img className='group-hover:scale-110  object-cover w-full h-full' src={src} alt={name} />
-       <div className='image-overlay absolute w-full h-full top-0 flex items-end p-2 text-[16px] md:text-[25px] font-bold text-white tracking-tighter'>
-         {discount}
-       </div>
+        <div className='mt-3 text-xl font-bold'>
+          {isLoading ? <div className="shimmer-wrapper shimmer h-6 w-32"></div> : name}
         </div>
-       <div className='mt-3 text-xl font-bold'>
-        {tittle}
-        
-       </div>
-       <div>
-       <Star className="inline"/> {rating}
-       <span className='ml-2'> {mintime}-{maxtime} mins</span>
-       </div >
-       <div className="text-slate-700">
-        {name}
-        <br />
-        {place}
-       </div>
-      {cart && <div onClick={handlecard} className='cursor:pointer h-10  px-4 py-2 shadow-lg rounded-[20px] bg-blue-950 flex text-center text-white w-[200px]'>
+  
+        <div>
+          {isLoading ? (
+            <div className="shimmer-wrapper shimmer h-5 w-20"></div>
+          ) : (
+            <>
+              <Star className="inline" /> {avgRating}
+              <span className='ml-2'>{slaString}</span>
+            </>
+          )}
+        </div>
+  
+        <div className="text-slate-700">
+          {isLoading ? (
+            <div className="shimmer-wrapper shimmer h-5 w-40"></div>
+          ) : (
+            cuisines.join(", ")
+          )}
+          <br />
+          {isLoading ? <div className="shimmer-wrapper shimmer h-5 w-20"></div> : areaName}
+        </div>
+        {cart && <div onClick={handlecard} className='cursor:pointer h-10  px-4 py-2 shadow-lg rounded-[20px] bg-blue-950 flex text-center text-white w-[200px]'>
        {   visible && <div className='flex text-center justify-center h-full w-full'>Add to Cart</div>}
        {!visible && <div className='flex text-center justify-center h-full w-full font-bold'>. . .</div>}
        </div>}
-
-       
-    </div>
-  )
-}
-
-export default Card
+      </div>
+    );
+  }
+  
+  export default Card;
+  
 
 {/* <button onClick={handlecard}  className='cursor:pointer  px-4 py-2 shadow-lg rounded-[20px] bg-blue-950 text-white'>
 { visible && <div>Add to Cart</div> }</button> */}

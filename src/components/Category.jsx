@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FaArrowRight,FaArrowLeft } from "react-icons/fa6";
 function Category() {
     const [slide,setslide] = useState(0);
-    
+    const [category,setcategory] = useState([]);
     const prevslide= () =>{
      
       setslide(slide-3)
@@ -14,66 +14,82 @@ function Category() {
     }
    
  
-  const category = [
-    {
-      src: "assets/Biryani_2(1).jpeg",
-    },
-    {
-        src:"assets/Burger.jpeg"
-    },
-    {
-      src: "assets/Cakes(1).jpeg"
-    },
-    {
-      src:"assets/Chinese.jpeg"
-    },{
-        src:"assets/Chole_Bature.jpeg"
-    },
-    {
-      src:"assets/Dosa.jpeg"
-    },
-    {
-      src:"assets/Gulab_Jamun.jpeg"
-    },
-    {
-      src:"assets/Ice_Creams(1).jpeg"
-    },
-    {
-      src:"assets/Idli(1).jpeg",
-    },{
-        src:"assets/Khichdi.jpeg"
-    },
-    {
-      src:"assets/Noodles(1).jpeg"
-    },
-    {
-      src:"assets/North_Indian_4(1).jpeg"
-    },
-    {
-      src:"assets/Paratha.jpeg",
-    },
-    {
-      src:"assets/Pasta(1).jpeg"
-    },
-    {
-      src:"assets/Pizza(1).jpeg"
-    },
-    {
-      src:"assets/Poori(2).jpeg"
-    },
-    {
-      src:"assets/Pure_Veg.jpeg"
-    },
-    {
-      src:"assets/Rolls(1).jpeg"
-    },
-    {
-      src:"assets/Salad.jpeg"
-    },
-    {
-      src:"assets/South_Indian_4(1).jpeg"
-    }
-  ]
+  // const category = [
+  //   {
+  //     src: "assets/Biryani_2(1).jpeg",
+  //   },
+  //   {
+  //       src:"assets/Burger.jpeg"
+  //   },
+  //   {
+  //     src: "assets/Cakes(1).jpeg"
+  //   },
+  //   {
+  //     src:"assets/Chinese.jpeg"
+  //   },{
+  //       src:"assets/Chole_Bature.jpeg"
+  //   },
+  //   {
+  //     src:"assets/Dosa.jpeg"
+  //   },
+  //   {
+  //     src:"assets/Gulab_Jamun.jpeg"
+  //   },
+  //   {
+  //     src:"assets/Ice_Creams(1).jpeg"
+  //   },
+  //   {
+  //     src:"assets/Idli(1).jpeg",
+  //   },{
+  //       src:"assets/Khichdi.jpeg"
+  //   },
+  //   {
+  //     src:"assets/Noodles(1).jpeg"
+  //   },
+  //   {
+  //     src:"assets/North_Indian_4(1).jpeg"
+  //   },
+  //   {
+  //     src:"assets/Paratha.jpeg",
+  //   },
+  //   {
+  //     src:"assets/Pasta(1).jpeg"
+  //   },
+  //   {
+  //     src:"assets/Pizza(1).jpeg"
+  //   },
+  //   {
+  //     src:"assets/Poori(2).jpeg"
+  //   },
+  //   {
+  //     src:"assets/Pure_Veg.jpeg"
+  //   },
+  //   {
+  //     src:"assets/Rolls(1).jpeg"
+  //   },
+  //   {
+  //     src:"assets/Salad.jpeg"
+  //   },
+  //   {
+  //     src:"assets/South_Indian_4(1).jpeg"
+  //   }
+  // ]
+
+  useEffect(() =>{
+      const fetchdata = async() =>{
+        try{
+           const datas =await fetch('https://www.swiggy.com/dapi/landing/PRE_SEARCH?lat=31.00480&lng=75.94630')
+           const json =await datas.json();
+           const grid = json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.info;
+           console.log("categrory is:",grid)
+           setcategory(grid);
+
+        }catch(err){
+          console.log("error is: ",err);
+        }
+      }
+      fetchdata();
+  },[])
   
   return (
     <>
@@ -96,7 +112,7 @@ function Category() {
                   <div style={{
                     transform: `translateX(-${slide * 100}%)`
                   }} key={index} className='w-[150px] shrink-0 duration-500'  >
-                    <img  src={cate.src} alt="abc" />
+                    <img  src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/" + cate.imageId} alt="abc" />
                   </div>
                 )
             })

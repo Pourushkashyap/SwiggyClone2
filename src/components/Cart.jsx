@@ -4,6 +4,20 @@ import Card from './Card'
 import Card2 from './Card2'
 function Cart() {
     const datas = useSelector((state) => state.cards)
+
+    // const data = {
+    //   name ,
+    //    cuisines,
+    //    cloudinaryImageId,
+    //     areaName, 
+    //     avgRating,
+    //      slaString,
+    //      width,
+    //      slide,
+    //      cart,
+    //      header,
+    //      subHeader
+    // }
  
     return (
       <>
@@ -15,16 +29,16 @@ function Cart() {
           {datas.map((data, index) => (
             <Card2
               key={index}
-              src={data.src}
               name={data.name}
-              discount={data.discount}
-              tittle={data.tittle}
-              rating={data.rating}
-              mintime={data.mintime}
-              maxtime={data.maxtime}
-              place={data.place}
-              slide={data.slide}
+              cuisines={data.cuisines}
+              cloudinaryImageId={data.cloudinaryImageId}
+              areaName={data.areaName}
+              avgRating={data.avgRating}
+              slaString={data.slaString}
               width={data.width}
+              slide={data.slide}
+              header={data.header}
+              subHeader={data.subHeader}
               cart={false}
               value={data.value}
             />

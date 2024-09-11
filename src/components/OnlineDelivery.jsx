@@ -1,5 +1,6 @@
 import React from 'react'
 import Card from './Card'
+import { useState,useEffect } from 'react'
 
 function OnlineDelivery() {
     const datas = [
@@ -105,22 +106,60 @@ function OnlineDelivery() {
             place: "Chopsani Housing Board"
         }
        ]
-  return (
-    <div className='max-w-[1200px] px-2 mx-auto   '>
-    <div className='flex my-3 items-center justify-between'>
-    <div className='text-[25px] font-bold'>Restaurants with online food delivery in Jodhpur</div>
+       const [data,setdata] = useState([])
 
-</div>
-<div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
-    {
-        datas.map((d,i)=>(
-                 <Card key={i} {...d} cart={true} value={1}/>
-        ))
+       useEffect( ()=>{
+        const fetchdata = async () => {
+            // https://www.swiggy.com/dapi/restaurants/list/v5?lat=31.00480&lng=75.94630&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING
+    
+        try{
+          const response =await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=31.00480&lng=75.94630&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING')
+          const d =await response.json();
+          console.log(d);
+          
+           const grid = d?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+           console.log("grid is: ",grid);
+          
+          setdata(grid);
+          console.log("the data is",data);
+        }
+        catch(err){
+            console.log("the error is: ",err) 
+        }
+        
     }
-</div>
-    </div>
-  )
-}
+    fetchdata();
+       },[])
 
-export default OnlineDelivery
-
+       return (
+        <div className="max-w-[1200px] px-4 mx-auto">
+          <div className="flex flex-col sm:flex-row my-3 items-center justify-between">
+            <div className="text-[20px] sm:text-[25px] font-bold text-center sm:text-left">
+              Restaurants with online food delivery in Ludhiana
+            </div>
+          </div>
+          
+         
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            {data.map((restaurant, index) => {
+              return (
+                <Card
+                  key={index}
+                  width={"w-full"}
+                  {...restaurant}
+                  {...restaurant?.info}
+                  cart={true}
+                  slide={null}
+                  {...restaurant?.info?.badgesV2}
+                  {...restaurant?.info?.sla}
+                  {...restaurant?.info?.aggregatedDiscountInfoV3}
+                />
+              );
+            })}
+          </div>
+          <hr className="my-4 border-[1px]" />
+        </div>
+      );
+    }
+    
+    export default OnlineDelivery;

@@ -11,14 +11,15 @@ import Offer from './components/Offer.jsx'
 import MainSection from './components/MainSection.jsx'
 import { Provider } from 'react-redux'
 import { store } from './redux/Store.js'
+import Restaurent from './components/Restaurent.jsx'
 const router = createBrowserRouter([
   {
     path:'/',
     element:<App/>,
     children:[
       {
-        path:'',
-        element:<MainSection/>
+        path: '',
+        element: <MainSection />,
       },
       {
         path:'/search',
@@ -39,7 +40,12 @@ const router = createBrowserRouter([
       {
         path:'/cart',
         element:<Cart/>
+      },
+      {
+        path: '/restaurent',
+        element: <Restaurent />
       }
+     
     ]
   }
 ])
