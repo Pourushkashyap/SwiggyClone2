@@ -3,21 +3,7 @@ import { useSelector } from 'react-redux'
 import Card from './Card'
 import Card2 from './Card2'
 function Cart() {
-    const datas = useSelector((state) => state.cards)
-
-    // const data = {
-    //   name ,
-    //    cuisines,
-    //    cloudinaryImageId,
-    //     areaName, 
-    //     avgRating,
-    //      slaString,
-    //      width,
-    //      slide,
-    //      cart,
-    //      header,
-    //      subHeader
-    // }
+    const datas = useSelector((state) => state.cards) 
  
     return (
       <>
@@ -29,17 +15,12 @@ function Cart() {
           {datas.map((data, index) => (
             <Card2
               key={index}
+              
+              category={data.category}
               name={data.name}
-              cuisines={data.cuisines}
-              cloudinaryImageId={data.cloudinaryImageId}
-              areaName={data.areaName}
-              avgRating={data.avgRating}
-              slaString={data.slaString}
-              width={data.width}
-              slide={data.slide}
-              header={data.header}
-              subHeader={data.subHeader}
-              cart={false}
+              imageId={data.imageId}
+              price={data.price}
+             
               value={data.value}
             />
           ))}

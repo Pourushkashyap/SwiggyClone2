@@ -117,11 +117,11 @@ function TopRest() {
         // https://www.swiggy.com/dapi/restaurants/list/v5?lat=31.00480&lng=75.94630&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING
 
     try{
-      const response =await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=31.00480&lng=75.94630&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING')
+      const response =await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=30.900965&lng=75.8572758&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING ')
       const d =await response.json();
       console.log(d);
       
-       const grid = d?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+       const grid = d?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
        console.log("grid is: ",grid);
       
       setdata(grid);
@@ -135,14 +135,13 @@ function TopRest() {
 fetchdata();
    },[])
 
-   const nextslide = () =>{
-    if(data.length -4 === slide) return 
-    setslide(slide + 3);
-   }
-   
-   const prevslide = () =>{
-    setslide(slide-3)
-   }
+   const nextslide = () => {
+    setslide(prevSlide => (prevSlide + 3) % data.length); // Loop back to start
+};
+
+const prevslide = () => {
+    setslide(prevSlide => (prevSlide - 3 + data.length) % data.length); // Loop back to the end
+};
 
 
    return (
@@ -172,7 +171,7 @@ fetchdata();
       <div className="flex gap-3 overflow-x-scroll md:overflow-hidden">
         {data.map((restaurant, index) => (
          <Link
-          to={"/restaurent"}
+          to={`/restaurent/${restaurant.info.id}`}
           state={{ restaurant }}
           >
             <Card

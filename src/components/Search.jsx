@@ -7,6 +7,8 @@ import Card from './Card';
 
 function Search() {
   const [data1,setdata1] = useState([]);
+  const [cicleDish , setCircleDish] = useState([])
+
 
   const [data,setdata] = useState([])
    const [input,setinput] = useState('');
@@ -27,7 +29,26 @@ function Search() {
    }
      }
      fetchdata();
+     fetchDishData()
+
   },[])
+
+
+  async  function fetchDishData() {
+    try {
+      const data = await fetch("https://www.swiggy.com/dapi/landing/PRE_SEARCH?lat=31.00480&lng=75.94630");
+      const jsonDishData = await data.json();
+      console.log(jsonDishData)
+      const gridDish = await jsonDishData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.info
+      console.log( "grid dish ", gridDish)
+
+      setCircleDish(gridDish)
+
+    } catch (error) {
+      console.log("Dish Data error",error)
+    }
+  }
+
 
   const handleform = (e) => {
     e.preventDefault();
@@ -39,12 +60,13 @@ function Search() {
       // if (cuisines && cuisines.length > 0) {
       //   return cuisines[0].toLowerCase() === input.toLowerCase(); 
       // }
-      if(cuisines && cuisines[0].toLowerCase() === input.toLowerCase()){
-        return restaurant;
+      if (cuisines && cuisines.length > 0) {
+        // Check if any cuisine in the array matches the input
+        return cuisines.some((cuisine) =>
+          cuisine.toLowerCase().includes(input.toLowerCase())
+        );
       }
-      else{
-      return false; 
-      }
+      return false;
     });
 
     console.log(filteredData);
@@ -67,6 +89,7 @@ function Search() {
 
 
   return (
+    <>
     <div className="max-w-[1000px]  mx-auto mt-[70px] p-2 rounded-sm">
       <form
        onSubmit={handleform}
@@ -83,9 +106,24 @@ function Search() {
           <IoIosSearch className="font-bold text-2xl" />
         </button>
       </form>
+     
+
       <div className='max-w-[1200px] px-2 mx-auto   '>
-      <div className='flex my-3 items-center justify-between'></div>
-      <div className='flex gap-3'>
+      
+      <h1 className='font-bold text-2xl ml-80 mt-7 mb-4'>Populer Cousines</h1>
+      <div className='flex max-w-[900px] mx-auto  overflow-hidden '>
+      {cicleDish.map((dish, i) => {
+            return (
+              <img  className='w-20 mb-4'
+                key={i} // Ensure each element has a unique key
+                src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/${dish.imageId}`}
+                alt={`dish.name || Dish image ${i}`} // Add alt attribute for accessibility
+              />
+            );
+          })}
+      </div>
+      {/* <div className='flex my-3 items-center justify-between'></div> */}
+      <div className='flex gap-3 '>
 {
         data.map((restaurant , index) => {
             return <Card
@@ -103,6 +141,7 @@ function Search() {
 </div>
         </div>
     </div>
+    </>
   );
 }
 

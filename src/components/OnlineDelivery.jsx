@@ -1,6 +1,7 @@
 import React from 'react'
 import Card from './Card'
 import { useState,useEffect } from 'react'
+import { Link } from 'react-router-dom';
 
 function OnlineDelivery() {
     const datas = [
@@ -113,11 +114,11 @@ function OnlineDelivery() {
             // https://www.swiggy.com/dapi/restaurants/list/v5?lat=31.00480&lng=75.94630&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING
     
         try{
-          const response =await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=31.00480&lng=75.94630&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING')
+          const response =await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=30.900965&lng=75.8572758&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING ')
           const d =await response.json();
           console.log(d);
           
-           const grid = d?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+           const grid = d?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
            console.log("grid is: ",grid);
           
           setdata(grid);
@@ -143,17 +144,21 @@ function OnlineDelivery() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
             {data.map((restaurant, index) => {
               return (
-                <Card
-                  key={index}
-                  width={"w-full"}
-                  {...restaurant}
-                  {...restaurant?.info}
-                  cart={true}
-                  slide={null}
-                  {...restaurant?.info?.badgesV2}
-                  {...restaurant?.info?.sla}
-                  {...restaurant?.info?.aggregatedDiscountInfoV3}
-                />
+                <Link
+          to={`/restaurent/${restaurant.info.id}`}
+          state={{ restaurant }}
+          >
+            <Card
+              width="w-full md:w-[273px]"
+              {...restaurant}
+              {...restaurant?.info}
+              cart={false}
+             
+              {...restaurant?.info?.badgesV2}
+              {...restaurant?.info?.sla}
+              {...restaurant?.info?.aggregatedDiscountInfoV3}
+            />
+            </Link>
               );
             })}
           </div>

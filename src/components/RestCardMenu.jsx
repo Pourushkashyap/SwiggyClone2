@@ -1,7 +1,30 @@
 import React from 'react'
 import Restaurent from './Restaurent'
+import { useDispatch } from 'react-redux'
+import { adddata,deletecart,addvalue,countdec } from '../redux/counter/counterSlice'
 
 function RestCardMenu( {imageId , name , category, price }) {
+ 
+   price = price/100;
+
+  const dispatch = useDispatch();
+   const data ={
+    imageId,
+    name,
+    category,
+    price,
+    value:0
+   }
+
+   const handlecard = () =>{
+    dispatch(adddata(data))
+    console.log(data)
+    
+   
+  }
+
+
+
   return (
    
 
@@ -20,10 +43,10 @@ function RestCardMenu( {imageId , name , category, price }) {
     <div className="relative">
       <img
        src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/" +  imageId }
-        alt="Cheese Pasta"
-        className="h-20 w-20 object-cover rounded-lg"
+        alt={name}
+        className="h-44 w-44 object-cover rounded-lg"
       />
-      <button className="absolute bottom-0 left-0 bg-green-500 text-white px-4 py-1 rounded-lg">
+      <button onClick={handlecard} className=" absolute bottom-0 mx-10 px-8 bg-white text-green-700 font-bold py-1 rounded-lg">
         ADD
       </button>
     </div>

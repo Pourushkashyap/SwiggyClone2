@@ -3,16 +3,13 @@ import { FaArrowRight,FaArrowLeft } from "react-icons/fa6";
 function Category() {
     const [slide,setslide] = useState(0);
     const [category,setcategory] = useState([]);
-    const prevslide= () =>{
-     
-      setslide(slide-3)
-      
-    }
-    const nextslide = () =>{
-      if(category.length -8 == slide) return 
-      setslide(slide+3)
-    }
-   
+    const nextslide = () => {
+      setslide(prevSlide => (prevSlide + 3) % category.length); // Loop back to start
+  };
+  
+  const prevslide = () => {
+      setslide(prevSlide => (prevSlide - 3 + category.length) % category.length); // Loop back to the end
+  };
  
   // const category = [
   //   {

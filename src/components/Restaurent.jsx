@@ -2,17 +2,21 @@ import React from 'react'
 import { useState , useEffect } from 'react'
 import RestCardMenu from './RestCardMenu.jsx';
 import { useLocation } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 function Restaurent() {
   const [restMenu , setRestMenu] = useState([]);
   const [data,setdata] = useState({});
   const [offer,setoffer] = useState([]);
+  const [input,setinput] = useState('');
+
+  const {id} = useParams();
   
 
   useEffect( () =>{
     const fetchdata = async() =>{
       try {
-        const fetchdata = await fetch("https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=31.00480&lng=75.94630&restaurantId=590305&catalog_qa=undefined&submitAction=ENTER")
+        const fetchdata = await fetch(`https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=31.00480&lng=75.94630&restaurantId=${id}`)
         const data = await fetchdata.json();
 
         const element = await data.data.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card?.itemCards
@@ -36,77 +40,96 @@ function Restaurent() {
     
   },[] )
 
+
+   const handlesearch  = (e) =>{
+    e.preventDefault();
+   if(!restMenu.length) return;
+
+   const filteredData = restMenu.filter((restaurant) => {
+    const name = restaurant?.card?.info.name?.toLowerCase();
+    return name && name.includes(input.toLowerCase()); // Use includes for partial match
+  });
+    setRestMenu(filteredData)
+
+   }
+
   return (
     <>
-     
-     <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-2">{data.name}</h1>
-      <p className="text-gray-500">{data?.sla?.minDeliveryTime}-{data?.sla?.maxDeliveryTime} mins</p>
-      
-      {/* Restaurant Card */}
-      <div className="mt-4 p-6 rounded-3xl  shadow-lg bg-white">
-        <div className=" justify-between items-center">
-          <div>
-            <span className=" font-bold"> <Star className="inline" /> {data.avgRating} {data.totalRatingsString}</span>
-            <span className="ml-2 font-bold"> <span className='text-gray-500'>•</span> {data.costForTwoMessage}</span>
-            <p className="mt-2 font-bold text-orange-500">{data.cuisines}</p>
-            <p className="text-black-600"><b>Outlet </b> {data.areaName}</p>
-            <p className="text-black-600 font-bold">{data?.sla?.minDeliveryTime}-{data?.sla?.maxDeliveryTime} mins</p>
-          </div>
-          {/* <div>
-            <img  src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/" + restaurent.info.cloudinaryImageId} alt="" />
-          </div> */}
-          <hr className="my-4 border-[1px]" />
-          <div>
-            <p className="text-gray-600">{data?.expectationNotifiers?.[0]?.enrichedText ? (
-  <p className="text-gray-600">{data.expectationNotifiers[0].enrichedText}</p>
-) : null}</p>
-          </div>
-        </div>
-      </div>
-
+                 {/* <h1>Restraunt id: {resId}</h1> */}
     
-<div className="mt-6">
-<h2 className="text-2xl font-bold mb-4">Deals for you</h2>
-<div className="flex gap-9xl space-x-4">
-      {offer.map((offer,index) =>{
-        return (
+          <div className="p-6 max-w-4xl mx-auto">
+           <h1 className="text-3xl font-bold mb-2">{data.name}</h1>
+           <p className="text-gray-500">{data?.sla?.minDeliveryTime}-{data?.sla?.maxDeliveryTime} mins</p>
           
-            <div className="px-[60px] py-2 border rounded-[20px] flex items-left shadow-lg bg-white text-center">
+          {/* Restaurant Card */}
+          <div className="mt-4 p-6 rounded-3xl  shadow-lg bg-white">
+            <div className=" justify-between items-center">
               <div>
-              <p className="text-black-900 float-left font-bold">{offer.info.header}</p>
-              <p className="text-gray-500">{offer.info.couponCode}</p>
+                <span className=" font-bold"> <Star className="inline" /> {data.avgRating} {data.totalRatingsString}</span>
+                <span className="ml-2 font-bold"> <span className='text-gray-500'>•</span> {data.costForTwoMessage}</span>
+                <p className="mt-2 font-bold text-orange-500">{data.cuisines}</p>
+                <p className="text-black-600"><b>Outlet </b> {data.areaName}</p>
+                <p className="text-black-600 font-bold">{data?.sla?.minDeliveryTime}-{data?.sla?.maxDeliveryTime} mins</p>
+              </div>
+              {/* <div>
+                <img  src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/" + restaurent.info.cloudinaryImageId} alt="" />
+               </div> */}
+              <hr className="my-4 border-[1px]" />
+              <div>
+                <p className="text-gray-600">{data?.expectationNotifiers?.[0]?.enrichedText ? (
+      <p className="text-gray-600">{data.expectationNotifiers[0].enrichedText}</p>
+    ) : null}</p>
               </div>
             </div>
-         
-         )
-      })}
-       </div>
-      </div>
-
-      {/* Search Bar */}
-      <div className="mt-6 ">
-        <div className='w-full flex text-center font-bold  items-center'> 🍽️ MENU 🍽️</div>
-        <input
-          type="text"
-          placeholder="Search for dishes"
-          className="w-full p-3 border items-center text-center flex border-gray-300 rounded-lg"
-        />
-      </div>
-    </div>
-    <hr className="my-4 border-[1px]" />
+          </div>
     
-
-    <div>
-      <div className='pl-[150px] font-bold'>Recommended (8)</div>
-      {
-        restMenu.map(( restaurant , index) => (
-
-          <RestCardMenu key={index} {...restaurant} {...restaurant?.card?.info}/>
-        ))
-      }
-    </div>
-    </>
+        
+    <div className="mt-6">
+    <h2 className="text-2xl font-bold mb-4">Deals for you</h2>
+    <div className="flex gap-9xl space-x-4 overflow-hidden">
+          {offer.map((offer,index) =>{
+            return (
+              
+                <div className="px-[60px] py-2 border rounded-[20px] flex items-left shadow-lg bg-white text-center">
+                  <div>
+                  <p className="text-black-900 float-left font-bold">{offer.info.header}</p>
+                  <p className="text-gray-500">{offer.info.couponCode}</p>
+                  </div>
+                </div>
+             
+             )
+          })}
+           </div>
+          </div>
+    
+          {/* Search Bar */}
+          <div className="mt-6 ">
+            <div className='w-full flex text-center font-bold  items-center'> 🍽 MENU 🍽</div>
+            <form onSubmit={handlesearch}>
+              <input
+               value={input}
+               onChange={(e) => setinput(e.target.value)}
+               type="text"
+               placeholder="Search for dishes"
+               className="w-full p-3 border items-center text-center flex border-gray-300 rounded-lg"
+  />
+</form>
+          </div>
+        
+        <hr className="my-4 border-[1px]" />
+        
+    
+        <div>
+          <div className='pl-[150px] font-bold'>Recommended ({restMenu.length})</div>
+          {
+            restMenu.map(( restaurant , index) => (
+    
+              <RestCardMenu key={index} {...restaurant} {...restaurant?.card?.info}/>
+            ))
+          }
+        </div>
+        </div>
+        </>
   )
 }
 
@@ -151,3 +174,5 @@ fillcolor="rgba(2, 6, 12, 0.92)"
 </svg>
   )
 }
+
+

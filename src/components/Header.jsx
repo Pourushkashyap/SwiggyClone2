@@ -77,12 +77,14 @@ function Header() {
 
    <header className='p-[15px]  shadow-xl text-[#686b78] sticky top-0 bg-white z-[9999]  '>
    <div className='max-w-[1200px] mx-auto  items-center flex '>
-
+      <NavLink to="/">
     <div className='w-[100px] h-[60px] flex items-center justify-center '>
        <img src='assets/logo.png' className='w-[50%] h-full' alt="" />
     </div>
+    </NavLink>
     <div >
-      <span className='font-bold border-b-[3px] border-[black]'>Ratanada </span> Jodhpur, Rajasthan, India <RxCaretDown onClick={handletoggle} fontSize={25} className='inline font-bold text-[#fc8019] cursor-pointer'/>
+      <span className='font-bold border-b-[3px] border-[black]'>Ratanada </span> 
+      ludhiana, Punjab, India <RxCaretDown onClick={handletoggle} fontSize={25} className='inline font-bold text-[#fc8019] cursor-pointer'/>
     </div>
 
     <nav className='hidden md:flex list-none gap-10   ml-auto text-[18px] font-semibold'>
