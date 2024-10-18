@@ -171,6 +171,7 @@ const prevslide = () => {
       <div className="flex gap-3 overflow-x-scroll md:overflow-hidden">
         {data.map((restaurant, index) => (
          <Link
+         key={index}
           to={`/restaurent/${restaurant.info.id}`}
           state={{ restaurant }}
           >

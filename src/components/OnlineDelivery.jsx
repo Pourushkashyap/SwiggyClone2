@@ -145,6 +145,7 @@ function OnlineDelivery() {
             {data.map((restaurant, index) => {
               return (
                 <Link
+                key={index}
           to={`/restaurent/${restaurant.info.id}`}
           state={{ restaurant }}
           >
