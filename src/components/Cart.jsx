@@ -1,9 +1,15 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux'
 import Card from './Card'
 import Card2 from './Card2'
+import { deleteallcart } from '../redux/counter/counterSlice'
+
 function Cart() {
     const datas = useSelector((state) => state.cards) 
+     const dispatch = useDispatch();
+    const removeallcart = () =>{
+        dispatch(deleteallcart());
+    }
  
     return (
       <>
@@ -25,6 +31,7 @@ function Cart() {
             />
           ))}
         </div>
+        <button onClick={removeallcart} className='bg-orange-600 rounded-xl p-4 mt-4'>Remove all item from cart</button>
       </div>
     </>
   );

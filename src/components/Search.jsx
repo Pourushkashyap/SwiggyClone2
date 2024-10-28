@@ -20,7 +20,7 @@ function Search() {
     const datas =await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=31.00480&lng=75.94630&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING')
     const json =await datas.json();
     const grid = json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
-    console.log(grid);
+    // console.log(grid);
     setdata1(grid);
     
    }

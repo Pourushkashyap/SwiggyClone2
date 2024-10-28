@@ -78,7 +78,7 @@ function Category() {
            const datas =await fetch('https://www.swiggy.com/dapi/landing/PRE_SEARCH?lat=31.00480&lng=75.94630')
            const json =await datas.json();
            const grid = json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.info;
-           console.log("categrory is:",grid)
+          //  console.log("categrory is:",grid)
            setcategory(grid);
 
         }catch(err){

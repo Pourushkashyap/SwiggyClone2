@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
  const initialState ={
-    cards:[]
+    cards:[],
+    username:"Signin",
+    email:""
  }
 
  export const counterSlice = createSlice({
@@ -41,11 +43,21 @@ import { createSlice } from "@reduxjs/toolkit";
            const key = action.payload;
            console.log(key)
            state.cards = state.cards.filter((data) => data.name !== action.payload);
+        },
+        deleteallcart:(state,action) =>{
+           state.cards = [];
+        },
+        addusername:(state,action) =>{
+         state.username = action.payload
+        },
+        addemail:(state,action) =>{
+         state.email = action.payload
         }
+        
     }
 
  })
- export const {adddata,addvalue,deletecart,countdec} = counterSlice.actions
+ export const {adddata,addvalue,deletecart,countdec,deleteallcart,addusername,addemail} = counterSlice.actions
 
  
 

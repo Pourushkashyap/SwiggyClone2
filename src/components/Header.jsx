@@ -8,11 +8,13 @@ import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 
+
 function Header() {
   const [toggle,settoggle] = useState(false)
-  const datas = useSelector((stata) => stata.cards)
-  
-  
+  const datas = useSelector((state) => state.cards)
+  const username = useSelector((state) =>state.username);
+  console.log(username);
+ 
 
   const handletoggle =() =>{
     settoggle((prevtoggle) => !prevtoggle);
@@ -44,7 +46,7 @@ function Header() {
     },
     {
       icon:<FontAwesomeIcon icon={faUser} className="inline" />,
-      name:"Signin",
+      name:username,
       route:"/signin",
     },{
       icon:"",

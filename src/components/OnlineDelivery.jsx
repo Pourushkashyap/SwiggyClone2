@@ -116,13 +116,13 @@ function OnlineDelivery() {
         try{
           const response =await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=30.900965&lng=75.8572758&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING ')
           const d =await response.json();
-          console.log(d);
+          // console.log(d);
           
            const grid = d?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-           console.log("grid is: ",grid);
+          //  console.log("grid is: ",grid);
           
           setdata(grid);
-          console.log("the data is",data);
+          // console.log("the data is",data);
         }
         catch(err){
             console.log("the error is: ",err) 

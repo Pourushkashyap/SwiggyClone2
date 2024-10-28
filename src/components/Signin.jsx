@@ -4,12 +4,23 @@ import { useRef } from 'react';
 import { validdata } from '../utils/validate'; 
 import { auth } from '../utils/firebase';
 import {signInWithEmailAndPassword,createUserWithEmailAndPassword } from "firebase/auth";
+import { useDispatch, useSelector } from 'react-redux';
+import Sidebar from "./Sidebar.jsx"
+import ProfileHeader from './ProfileHeader.jsx';
+import Content from './Content.jsx';
+import { addemail, addusername } from '../redux/counter/counterSlice.js';
+
+
+
 function Signin() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [message,setmessage] = useState(null);
    const name = useRef(null);
    const email = useRef(null);
    const password = useRef(null);
+   const username1 = useSelector((state) => state.username);
+
+   const dispatch = useDispatch();
 
   const toggleForm = () => {
     setIsSignUp(!isSignUp);
@@ -21,6 +32,7 @@ function Signin() {
    
     let message ="";
     if(!isSignUp){
+
       if(email.current && password.current ){
       message = validdata(email.current.value,password.current.value);
       if(!message){
@@ -29,6 +41,7 @@ function Signin() {
     // Signed in 
     const user = userCredential.user;
     console.log(user)
+    // 
     // ...
   })
   .catch((error) => {
@@ -43,6 +56,9 @@ function Signin() {
     }
     
   }
+
+
+
   else{
     if(email.current && password.current && name.current.value ){
       message = validdata(email.current.value,password.current.value,name.current.value)
@@ -51,6 +67,8 @@ function Signin() {
   .then((userCredential) => {
     // Signed up 
     const user = userCredential.user;
+    dispatch(addusername(name.current.value))
+    dispatch(addemail(email.current,value));
     // ...
   })
   .catch((error) => {
@@ -67,7 +85,8 @@ function Signin() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-orange-500 to-yellow-400">
+    <>
+   { username1 == "Signin" ? <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-orange-500 to-yellow-400">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
         <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">
           {isSignUp ? 'Sign Up' : 'Sign In'}
@@ -135,7 +154,22 @@ function Signin() {
           </button>
         </p>
       </div>
-    </div>
+    </div>:  <div className="h-screen bg-gray-100">
+      <div className="flex h-full">
+        {/* Sidebar */}
+        <Sidebar />
+
+        {/* Main content area */}
+        <div className="flex flex-col flex-grow">
+          {/* Profile Header */}
+          <ProfileHeader />
+
+          {/* Main content */}
+          <Content />
+        </div>
+      </div>
+    </div> }
+    </>
   );
 }
 

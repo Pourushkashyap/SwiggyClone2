@@ -25,8 +25,8 @@ function Restaurent() {
         setdata(element2)
         setoffer(element3);
 
-        console.log(" data ", data)
-        console.log("this is a element data ", element)
+        // console.log(" data ", data)
+        // console.log("this is a element data ", element)
 
         setRestMenu(element)
 
@@ -90,7 +90,7 @@ function Restaurent() {
           {offer.map((offer,index) =>{
             return (
               
-                <div className="px-[60px] py-2 border rounded-[20px] flex items-left shadow-lg bg-white text-center">
+                <div key={index} className="px-[60px] py-2 border rounded-[20px] flex items-left shadow-lg bg-white text-center">
                   <div>
                   <p className="text-black-900 float-left font-bold">{offer.info.header}</p>
                   <p className="text-gray-500">{offer.info.couponCode}</p>

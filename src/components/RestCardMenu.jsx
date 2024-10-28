@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Restaurent from './Restaurent'
 import { useDispatch } from 'react-redux'
 import { adddata,deletecart,addvalue,countdec } from '../redux/counter/counterSlice'
 
 function RestCardMenu( {imageId , name , category, price }) {
- 
-   price = price/100;
+    const [addbutton,setaddbutton] = useState("ADD");
+  
+    if(price){
+      price = price/100;
+    }
+   
 
   const dispatch = useDispatch();
    const data ={
@@ -19,6 +23,10 @@ function RestCardMenu( {imageId , name , category, price }) {
    const handlecard = () =>{
     dispatch(adddata(data))
     console.log(data)
+    setaddbutton(" ");
+    setTimeout(() => {
+      setaddbutton("ADD");
+    }, 1000);
     
    
   }
@@ -46,8 +54,10 @@ function RestCardMenu( {imageId , name , category, price }) {
         alt={name}
         className="h-44 w-44 object-cover rounded-lg"
       />
-      <button onClick={handlecard} className=" absolute bottom-0 mx-10 px-8 bg-white text-green-700 font-bold py-1 rounded-lg">
-        ADD
+      <button
+      onClick={handlecard}
+     className="absolute bottom-0 mx-10 w-20 h-10 hover:bg-gray-300 bg-white text-green-700 font-bold py-1 rounded-lg text-center">
+      {addbutton || "\u00A0"} 
       </button>
     </div>
     

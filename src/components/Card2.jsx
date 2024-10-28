@@ -31,47 +31,43 @@ function Card2({imageId , name , category, price,value }) {
     dispatch(countdec(name))
   }
 
-  return (
+  return ( 
     <div className="flex justify-between max-w-[1200px] mx-auto items-center border-b p-4">
-    <div className="flex flex-col items-center ">
-      {/* <input
-        type="checkbox"
-        className="form-checkbox h-5 w-5 text-green-500"
-      /> */}
-      <div className="ml-4">
-        <h3 className="text-lg font-medium"> {name}</h3>
-        <p className="text-gray-600">{price}</p>
-        <button onClick={removecard} className=" px-2 border border-gray-700 flex justify-center items-center rounded-lg">
-        Remove to Cart.
-      </button>
-      </div>
-      
-    </div>
-    <div className="relative">
-      <img
-       src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/" +  imageId }
-        alt={name}
-        className="h-44 w-44 object-cover rounded-lg"
-      />
-        <div className="absolute bottom-2 right-4 bg-white py-1 px-4 rounded-lg flex items-center shadow-lg">
-          <button
-            onClick={subtractitem}
-            className="px-2 py-1 text-lg bg-gray-200 rounded-lg hover:bg-gray-300 transition"
-          >
-            -
-          </button>
-          <span className="mx-4 text-lg">{value}</span>
-          <button
-            onClick={additem}
-            className="px-2 py-1 text-lg bg-gray-200 rounded-lg hover:bg-gray-300 transition"
-          >
-            +
-          </button>
+    <div className="flex flex-col justify-between h-full">
+        <div className="ml-4">
+          <h3 className="text-lg font-medium">{name}</h3>
+          <p className="text-gray-600 ">{price}</p>
         </div>
-           
-
-      
-    </div>
+        <button 
+          onClick={removecard} 
+          className="mt-24 px-4 py-2 bg-gradient-to-r from-orange-500 to-yellow-400 text-black font-semibold border   border-gray-700 rounded-lg shadow-md transition-transform hover:scale-105 hover:from-orange-600 hover:to-yellow-600 hover:shadow-lg hover:text-shadow-lg"
+        >
+          Remove from Cart
+        </button>
+      </div>
+      <div className="relative">
+  <img
+    src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/" + imageId}
+    alt={name}
+    className="h-44 w-44 object-cover rounded-lg"
+  />
+  <div className="absolute bottom-2 right-0 bg-white py-1 px-4 rounded-full flex items-center shadow-md">
+    <button
+      onClick={subtractitem}
+      className="px-3 mx-1  py-1 text-lg text-black bg-gray-200 rounded-l-full hover:bg-gray-300 transition"
+    >
+      −
+    </button>
+    <span className="mx-4 text-lg font-semibold text-black">{value}</span>
+    <button
+      onClick={additem}
+      className="px-3 mx-1 py-1 text-lg text-black bg-gray-200 rounded-r-full hover:bg-gray-300 transition"
+    >
+      +
+    </button>
+  </div>
+</div>
+   
     
   </div>
   )
